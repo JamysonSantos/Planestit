@@ -6,7 +6,7 @@
     <title>UnoPlan - Gerador de Plano de Ação</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -18,12 +18,18 @@
             padding: 0;
             display: flex;
             align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
         }
 
         .header {
@@ -44,8 +50,8 @@
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-		
-		.input-field:focus {
+        
+        .input-field:focus {
             outline: none;
             border-color: #4a5568;
             box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
@@ -69,12 +75,12 @@
             margin-bottom: 1rem;
         }
          
-		.button:hover {
+        .button:hover {
             background: linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
             background-color: #408c99;
         }
-		
-		.button:active {
+        
+        .button:active {
             position: relative;
             top: 1px;
         }
@@ -119,7 +125,29 @@
             font-size: 1.2rem;
             color: #2d3748;
         }
-		
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                font-size: 3rem;
+            }
+
+            .input-field,
+            .button {
+                width: calc(100% - 40px);
+            }
+
+            .action-card {
+                max-width: calc(100% - 40px); /* Alinhado ao centro */
+            }
+
+            .action-card-container {
+                margin-top: 1rem;
+            }
+        }
     </style>
 </head>
 
