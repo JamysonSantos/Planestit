@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnoPlan - Gerador de Plano de Ação</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background-image: radial-gradient(#b39fa6 0.5px, transparent 0.5px);
+            background-size: 10px 10px;
+            background-color: #deedf6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 5.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+            width: 100%;
+        }
+
+        .input-field {
+            width: 100%;
+            border: 1px solid #a0aec0;
+            padding: 0.3rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+		
+		.input-field:focus {
+            outline: none;
+            border-color: #4a5568;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+
+        .button {
+            box-shadow: 0px 7px 14px -7px #276873;
+            background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+            background-color: #599bb3;
+            border-radius: 14px;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 2px 17px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #3d768a;
+            transition: background-color 0.3s;
+            margin-bottom: 1rem;
+        }
+         
+		.button:hover {
+            background: linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+            background-color: #408c99;
+        }
+		
+		.button:active {
+            position: relative;
+            top: 1px;
+        }
+
+        .action-card-container {
+            width: 100%;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            max-width: 300px;
+            flex-grow: 1;
+        }
+
+        .action-card button {
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #718096;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .action-card button:hover {
+            background-color: #4a5568;
+        }
+
+        .highlight {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2d3748;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">UnoPlan</div>
+        <input type="text" id="what" class="input-field" placeholder="O que será feito?">
+        <a href="#" class="button" onclick="defineResponsible()">Definir Responsável</a>
+
+        <div id="responsibleSection" style="display: none;">
+            <input type="text" id="who" class="input-field" placeholder="Por quem será feito?">
+            <a href="#" class="button" onclick="continueToDetails()">Continuar</a>
+
+            <div id="actionDetails" style="display: none;">
+                <input type="date" id="when" class="input-field" placeholder="Quando será feito?" required>
+                <input type="text" id="where" class="input-field" placeholder="Onde será feito?">
+                <input type="text" id="how" class="input-field" placeholder="Como será feito?">
+                <input type="text" id="why" class="input-field" placeholder="Por que será feito?">
+                <input type="text" id="cost" class="input-field" placeholder="Quanto vai custar?" required>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-4">
+            <a href="#" class="button" onclick="finishActionPlan()">Finalizar Plano de Ação</a>
+        </div>
+    </div>
+
+    <div class="action-card-container" id="actionCardContainer"></div>
+
+    <script>
+    function defineResponsible() {
+        document.getElementById('responsibleSection').style.display = 'block';
+    }
+
+    function continueToDetails() {
+        document.getElementById('actionDetails').style.display = 'block';
+    }
+
+    function finishActionPlan() {
+        var what = document.getElementById('what').value;
+        var who = document.getElementById('who').value;
+        var when = document.getElementById('when').value;
+        var where = document.getElementById('where').value;
+        var how = document.getElementById('how').value;
+        var why = document.getElementById('why').value;
+        var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
+        var cost = formatCurrency(costValue); // Formatar o valor como moeda
+		
+		   // Verifica se o campo de custo está vazio
+        if (isNaN(costValue) || costValue === 0) {
+        cost = 'Sem custos';
+        }
+
+        var cardContent = `
+            <div class="action-card">
+                <div class="highlight">${what}</div>
+                <hr>
+                <div><strong>Responsável:</strong> ${who}</div>
+                <hr>
+                <div><strong>Quando?</strong> ${when}</div>
+                <div><strong>Onde?</strong> ${where}</div>
+                <div><strong>Como vai ser feito?</strong> ${how}</div>
+                <div><strong>Por que tem que ser feito?</strong> ${why}</div>
+                <div><strong>Quanto irá custar?</strong> ${cost}</div>
+                <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
+                <button onclick="deleteActionPlan()">Excluir</button>
+            </div>
+        `;
+        document.getElementById('actionCardContainer').innerHTML += cardContent;
+        resetForm();
+    }
+
+    function resetForm() {
+        document.getElementById('what').value = '';
+        document.getElementById('who').value = '';
+        document.getElementById('when').value = '';
+        document.getElementById('where').value = '';
+        document.getElementById('how').value = '';
+        document.getElementById('why').value = '';
+        document.getElementById('cost').value = '';
+
+        document.getElementById('responsibleSection').style.display = 'none';
+        document.getElementById('actionDetails').style.display = 'none';
+    }
+
+    function downloadActionPlan(what, who, when, where, how, why, cost) {
+        generateImage(what, who, when, where, how, why, cost);
+    }
+
+    function deleteActionPlan() {
+        alert('Excluir Plano de Ação');
+    }
+
+    // Função para formatar um número como moeda (R$)
+    function formatCurrency(value) {
+        return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
+    }
+
+    function generateImage(what, who, when, where, how, why, cost) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Configuração do canvas
+    canvas.width = 600;
+    canvas.height = 400;
+
+    // Background da comanda
+    ctx.fillStyle = '#f7fafc';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Títulos
+    ctx.fillStyle = '#2d3748';
+    ctx.font = 'bold 24px Arial';
+    ctx.fillText(what, 20, 40);
+
+    // Linha divisória após o título
+    ctx.beginPath();
+    ctx.moveTo(20, 60);
+    ctx.lineTo(canvas.width - 20, 60);
+    ctx.strokeStyle = '#4a5568';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Informações do Plano de Ação
+    ctx.font = 'bold 18px Arial';
+    let yOffset = 100;
+    ctx.fillStyle = '#2d3748';
+    ctx.fillText(`Responsável: ${who}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Quando? ${when}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Onde? ${where}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+
+    // Criação do link de download
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/jpeg');
+    link.download = `${what}.jpg`;
+    link.click();
+}
+</script>
+
+
+
+
