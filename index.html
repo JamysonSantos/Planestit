@@ -272,8 +272,7 @@ function downloadActionPlan(what, who, when, where, how, why, cost) {
 }
 
 function deleteActionPlan(cardElement) {
-    var actionCardContainer = document.getElementById('actionCardContainer');
-    actionCardContainer.removeChild(cardElement);
+    cardElement.parentNode.removeChild(cardElement);
 }
 
 // Função para formatar um número como moeda (R$)
