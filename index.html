@@ -288,14 +288,11 @@ function downloadActionPlan(what, who, when, where, how, why, cost) {
 function deleteActionPlan(cardElement) {
     cardElement.classList.add('fadeOut'); // Adiciona a classe para animação de fadeOut
     setTimeout(function() {
-        cardElement.style.height = '0'; // Define a altura do card como 0 após a animação de fadeOut
-        setTimeout(function() {
-            cardElement.remove(); // Remove o card após a animação de fadeOut
-            var actionCardContainer = document.getElementById('actionCardContainer');
-            if (actionCardContainer.children.length === 0) {
-                actionCardContainer.remove(); // Remove o container se não houver mais nenhum card
-            }
-        }, 300); // Tempo de espera igual à duração da animação (300ms)
+        var actionCardContainer = cardElement.parentElement; // Obtém o contêiner do card
+        cardElement.remove(); // Remove o card do DOM
+        if (actionCardContainer.children.length === 0) {
+            actionCardContainer.remove(); // Remove o contêiner se não houver mais nenhum card dentro
+        }
     }, 300); // Tempo de espera igual à duração da animação (300ms)
 }
 
