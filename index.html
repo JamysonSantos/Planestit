@@ -288,7 +288,7 @@ function downloadActionPlan(what, who, when, where, how, why, cost) {
 function deleteActionPlan(cardElement) {
     cardElement.classList.add('fadeOut'); // Adiciona a classe para animação de fadeOut
     setTimeout(function() {
-        cardElement.style.display = 'none'; // Oculta o card após a animação de fadeOut
+        cardElement.style.height = '0'; // Define a altura do card como 0 após a animação de fadeOut
         setTimeout(function() {
             cardElement.remove(); // Remove o card após a animação de fadeOut
             var actionCardContainer = document.getElementById('actionCardContainer');
@@ -298,7 +298,6 @@ function deleteActionPlan(cardElement) {
         }, 300); // Tempo de espera igual à duração da animação (300ms)
     }, 300); // Tempo de espera igual à duração da animação (300ms)
 }
-
 
 // Função para formatar um número como moeda (R$)
 function formatCurrency(value) {
