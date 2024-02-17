@@ -222,7 +222,7 @@
                     <div><strong>Por que tem que ser feito?</strong> ${why}</div>
                     <div><strong>Quanto irá custar?</strong> ${cost}</div>
                     <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
-                    <button onclick="deleteActionPlan()">Excluir</button>
+                    <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
                 </div>
             `;
             document.getElementById('actionCardContainer').innerHTML += cardContent;
@@ -246,10 +246,13 @@
             generateImage(what, who, when, where, how, why, cost);
         }
 
-        function deleteActionPlan() {
-            alert('Excluir Plano de Ação');
+        function deleteActionPlan(cardElement) {
+            // Obtém o elemento pai do cartão de ação
+            var actionCardContainer = document.getElementById('actionCardContainer');
+    
+            // Remove o cartão de ação do elemento pai
+            actionCardContainer.removeChild(cardElement);
         }
-
         // Função para formatar um número como moeda (R$)
         function formatCurrency(value) {
             return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
