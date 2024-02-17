@@ -108,6 +108,7 @@
             margin: 10px;
             max-width: 300px;
             flex-grow: 1;
+            animation: customAni 0.5s ease;
         }
 
         .action-card button {
@@ -156,6 +157,18 @@
                 margin-top: 1rem;
             }
         }
+
+        @keyframes customAni {
+            0% {
+                transform: scale(0.5);
+                transform-origin: 50% 0%;
+            }
+
+            100% {
+                transform: scale(1);
+                transform-origin: 50% 0%;
+            }
+        }
     </style>
 </head>
 
@@ -189,127 +202,125 @@
 
     <script>
         function defineResponsible() {
-            document.getElementById('responsibleSection').style.display = 'block';
-        }
+    document.getElementById('responsibleSection').style.display = 'block';
+}
 
-        function continueToDetails() {
-            document.getElementById('actionDetails').style.display = 'block';
-        }
+function continueToDetails() {
+    document.getElementById('actionDetails').style.display = 'block';
+}
 
-        function finishActionPlan() {
-            var what = document.getElementById('what').value;
-            var who = document.getElementById('who').value;
-            var when = document.getElementById('when').value;
-            var where = document.getElementById('where').value;
-            var how = document.getElementById('how').value;
-            var why = document.getElementById('why').value;
-            var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
-            var cost = formatCurrency(costValue); // Formatar o valor como moeda
+function finishActionPlan() {
+    var what = document.getElementById('what').value;
+    var who = document.getElementById('who').value;
+    var when = document.getElementById('when').value;
+    var where = document.getElementById('where').value;
+    var how = document.getElementById('how').value;
+    var why = document.getElementById('why').value;
+    var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
+    var cost = formatCurrency(costValue); // Formatar o valor como moeda
 
-            // Verifica se o campo de custo está vazio
-            if (isNaN(costValue) || costValue === 0) {
-                cost = 'Sem custos';
-            }
+    // Verifica se o campo de custo está vazio
+    if (isNaN(costValue) || costValue === 0) {
+        cost = 'Sem custos';
+    }
 
-            var cardContent = `
-                <div class="action-card">
-                    <div class="highlight">${what}</div>
-                    <hr>
-                    <div><strong>Responsável:</strong> ${who}</div>
-                    <hr>
-                    <div><strong>Quando?</strong> ${when}</div>
-                    <div><strong>Onde?</strong> ${where}</div>
-                    <div><strong>Como será feito?</strong> ${how}</div>
-                    <div><strong>Por que tem que ser feito?</strong> ${why}</div>
-                    <div><strong>Quanto irá custar?</strong> ${cost}</div>
-                    <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
-                    <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
-                </div>
-            `;
-            
-            document.getElementById('actionCardContainer').innerHTML += cardContent;
-            resetForm();
-        }
+    var cardContent = `
+        <div class="action-card" style="animation: customAni 0.5s ease;">
+            <div class="highlight">${what}</div>
+            <hr>
+            <div><strong>Responsável:</strong> ${who}</div>
+            <hr>
+            <div><strong>Quando?</strong> ${when}</div>
+            <div><strong>Onde?</strong> ${where}</div>
+            <div><strong>Como será feito?</strong> ${how}</div>
+            <div><strong>Por que será feito?</strong> ${why}</div>
+            <div><strong>Quanto irá custar?</strong> ${cost}</div>
+            <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
+            <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
+        </div>
+    `;
+    document.getElementById('actionCardContainer').innerHTML += cardContent;
+    resetForm();
+}
 
-        function resetForm() {
-            document.getElementById('what').value = '';
-            document.getElementById('who').value = '';
-            document.getElementById('when').value = '';
-            document.getElementById('where').value = '';
-            document.getElementById('how').value = '';
-            document.getElementById('why').value = '';
-            document.getElementById('cost').value = '';
+function resetForm() {
+    document.getElementById('what').value = '';
+    document.getElementById('who').value = '';
+    document.getElementById('when').value = '';
+    document.getElementById('where').value = '';
+    document.getElementById('how').value = '';
+    document.getElementById('why').value = '';
+    document.getElementById('cost').value = '';
 
-            document.getElementById('responsibleSection').style.display = 'none';
-            document.getElementById('actionDetails').style.display = 'none';
-        }
+    document.getElementById('responsibleSection').style.display = 'none';
+    document.getElementById('actionDetails').style.display = 'none';
+}
 
-        function downloadActionPlan(what, who, when, where, how, why, cost) {
-            generateImage(what, who, when, where, how, why, cost);
-        }
+function downloadActionPlan(what, who, when, where, how, why, cost) {
+    generateImage(what, who, when, where, how, why, cost);
+}
 
-        function deleteActionPlan(cardElement) {
-            // Obtém o elemento pai do cartão de ação
-            var actionCardContainer = document.getElementById('actionCardContainer');
-    
-            // Remove o cartão de ação do elemento pai
-            actionCardContainer.removeChild(cardElement);
-        }
-        // Função para formatar um número como moeda (R$)
-        function formatCurrency(value) {
-            return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
-        }
+function deleteActionPlan(cardElement) {
+    var actionCardContainer = document.getElementById('actionCardContainer');
+    actionCardContainer.removeChild(cardElement);
+}
 
-        function generateImage(what, who, when, where, how, why, cost) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+// Função para formatar um número como moeda (R$)
+function formatCurrency(value) {
+    return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
+}
 
-            // Configuração do canvas
-            canvas.width = 500;
-            canvas.height = 400;
+function generateImage(what, who, when, where, how, why, cost) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-            // Background da comanda
-            ctx.fillStyle = '#fff8dc'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Configuração do canvas
+    canvas.width = 500;
+    canvas.height = 400;
 
-            // Títulos
-            ctx.fillStyle = '#2d3748';
-            ctx.font = 'bold 24px Arial';
-            ctx.fillText(what, 20, 40);
+    // Background da comanda
+    ctx.fillStyle = '#fff8dc'; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Linha divisória após o título
-            ctx.beginPath();
-            ctx.moveTo(20, 60);
-            ctx.lineTo(canvas.width - 20, 60);
-            ctx.strokeStyle = '#4a5568';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+    // Títulos
+    ctx.fillStyle = '#2d3748';
+    ctx.font = 'bold 24px Arial';
+    ctx.fillText(what, 20, 40);
 
-            // Informações do Plano de Ação
-            ctx.font = 'bold 18px Arial';
-            let yOffset = 100;
-            ctx.fillStyle = '#2d3748';
-            ctx.fillText(`Responsável: ${who}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Quando? ${when}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Onde? ${where}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+    // Linha divisória após o título
+    ctx.beginPath();
+    ctx.moveTo(20, 60);
+    ctx.lineTo(canvas.width - 20, 60);
+    ctx.strokeStyle = '#4a5568';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-            // Criação do link de download
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/jpeg');
-            link.download = `${what}.jpg`;
-            link.click();
-        }
+    // Informações do Plano de Ação
+    ctx.font = 'bold 18px Arial';
+    let yOffset = 100;
+    ctx.fillStyle = '#2d3748';
+    ctx.fillText(`Responsável: ${who}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Quando? ${when}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Onde? ${where}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
+    yOffset += 30;
+    ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+
+    // Criação do link de download
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/jpeg');
+    link.download = `${what}.jpg`;
+    link.click();
+}
     </script>
 </body>
 </html>
+
 
 
 
