@@ -286,14 +286,14 @@ function downloadActionPlan(what, who, when, where, how, why, cost) {
 }
 
 function deleteActionPlan(cardElement) {
-    cardElement.style.animation = 'fadeOut 0.5s ease forwards'; // Aplica a animação fadeOut ao card
+    cardElement.style.animation = 'fadeOut 0.3s ease forwards'; // Aplica a animação fadeOut ao card
     setTimeout(function() {
         cardElement.parentNode.removeChild(cardElement); // Remove o card após a animação ser concluída
         var actionCardContainer = document.getElementById('actionCardContainer');
         if (actionCardContainer.children.length === 0) {
             actionCardContainer.parentNode.removeChild(actionCardContainer); // Remove o container se não houver mais nenhum card
         }
-    }, 500); // Define um tempo de espera igual à duração da animação (500ms)
+    }, 300); // Define um tempo de espera igual à duração da animação (300ms)
 }
 
 // Função para formatar um número como moeda (R$)
