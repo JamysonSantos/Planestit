@@ -109,6 +109,7 @@
             max-width: 300px;
             flex-grow: 1;
             animation: customAni 0.5s ease;
+            animation: fadeOut 0.5s ease forwards; /* Aplica a animação fadeOut por padrão */
         }
 
         .action-card button {
@@ -169,6 +170,19 @@
                 transform-origin: 50% 0%;
             }
         }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+        }
+            
+        100% {
+                opacity: 0;
+                height: 0;
+                padding: 0;
+                margin: 0;
+        }
+
     </style>
 </head>
 
@@ -272,7 +286,10 @@ function downloadActionPlan(what, who, when, where, how, why, cost) {
 }
 
 function deleteActionPlan(cardElement) {
-    cardElement.parentNode.removeChild(cardElement);
+    cardElement.style.animation = 'fadeOut 0.5s ease forwards'; // Aplica a animação fadeOut ao card
+    setTimeout(function() {
+        cardElement.parentNode.removeChild(cardElement); // Remove o card após a animação ser concluída
+    }, 500); // Define um tempo de espera igual à duração da animação (500ms)
 }
 
 // Função para formatar um número como moeda (R$)
