@@ -212,7 +212,7 @@
             }
 
             var cardContent = `
-                <div class="action-card" style="animation: customAni 0.5s ease 0s 1 normal none;">
+                <div class="action-card">
                     <div class="highlight">${what}</div>
                     <hr>
                     <div><strong>Responsável:</strong> ${who}</div>
@@ -226,6 +226,15 @@
                     <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
                 </div>
             `;
+
+            // Cria um elemento div para o novo card de plano de ação
+            var newCard = document.createElement('div');
+                newCard.classList.add('action-card');
+                newCard.innerHTML = cardContent;
+
+            // Adiciona a animação ao novo card de plano de ação
+                newCard.style.animation = 'customAni 0.5s ease';
+            
             document.getElementById('actionCardContainer').innerHTML += cardContent;
             resetForm();
         }
