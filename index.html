@@ -239,8 +239,19 @@ function finishActionPlan() {
             <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
         </div>
     `;
-    document.getElementById('actionCardContainer').innerHTML += cardContent;
-    resetForm();
+    // Cria um novo elemento div para o card de ação
+    var newCard = document.createElement('div');
+    newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
+    newCard.innerHTML = cardContent; // Define o conteúdo do novo card
+
+    // Adiciona o novo card à div de container de cards
+    var actionCardContainer = document.getElementById('actionCardContainer');
+    actionCardContainer.appendChild(newCard);
+
+    // Aplica a animação ao novo card apenas
+    newCard.style.animation = 'customAni 0.5s ease';
+
+    resetForm(); // Limpa o formulário
 }
 
 function resetForm() {
