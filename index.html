@@ -305,7 +305,6 @@ function formatCurrency(value) {
     return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
 }
 
-<script>
 function generateImage(what, who, when, where, how, why, cost) {
     // Remover quebras de linha dos parâmetros
     what = what.replace(/\n/g, ' ');
@@ -369,11 +368,10 @@ function generateImage(what, who, when, where, how, why, cost) {
     link.href = canvas.toDataURL('image/jpeg');
     link.download = `${what}.jpg`;
     link.click();
-}      
+}
 </script>
 </body>
 </html>
-
 
 
 
