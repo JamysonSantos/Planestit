@@ -306,6 +306,15 @@ function formatCurrency(value) {
 }
 
 function generateImage(what, who, when, where, how, why, cost) {
+    // Remover quebras de linha dos parâmetros
+    what = what.replace(/\n/g, ' ');
+    who = who.replace(/\n/g, ' ');
+    when = when.replace(/\n/g, ' ');
+    where = where.replace(/\n/g, ' ');
+    how = how.replace(/\n/g, ' ');
+    why = why.replace(/\n/g, ' ');
+    cost = cost.replace(/\n/g, ' ');
+
     // Criar canvas
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
