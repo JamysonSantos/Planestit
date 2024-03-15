@@ -306,52 +306,71 @@ function formatCurrency(value) {
 }
 
 function generateImage(what, who, when, where, how, why, cost) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+            // Remover quebras de linha dos parâmetros
+            what = what.replace(/\n/g, ' ');
+            who = who.replace(/\n/g, ' ');
+            when = when.replace(/\n/g, ' ');
+            where = where.replace(/\n/g, ' ');
+            how = how.replace(/\n/g, ' ');
+            why = why.replace(/\n/g, ' ');
+            cost = cost.replace(/\n/g, ' ');
 
-    // Configuração do canvas
-    canvas.width = 500;
-    canvas.height = 400;
+            // Criar canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
 
-    // Background da comanda
-    ctx.fillStyle = '#fff8dc'; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Configuração do canvas
+            const padding = 20; // Padding ao redor do texto
+            const lineHeight = 30; // Altura de linha
+            const textWidth = 460; // Largura do texto
+            let textHeight = padding * 2; // Altura inicial do texto
 
-    // Títulos
-    ctx.fillStyle = '#2d3748';
-    ctx.font = 'bold 24px Arial';
-    ctx.fillText(what, 20, 40);
+            // Calcular a altura do texto com base na quantidade de linhas
+            const lines = [what, who, when, where, how, why, cost];
+            lines.forEach(line => {
+                const numLines = Math.ceil(ctx.measureText(line).width / textWidth);
+                textHeight += lineHeight * numLines;
+            });
 
-    // Linha divisória após o título
-    ctx.beginPath();
-    ctx.moveTo(20, 60);
-    ctx.lineTo(canvas.width - 20, 60);
-    ctx.strokeStyle = '#4a5568';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+            // Configuração dinâmica do tamanho do canvas com base no conteúdo
+            canvas.width = textWidth + padding * 2;
+            canvas.height = textHeight + padding * 2;
 
-    // Informações do Plano de Ação
-    ctx.font = 'bold 18px Arial';
-    let yOffset = 100;
-    ctx.fillStyle = '#2d3748';
-    ctx.fillText(`Responsável: ${who}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Quando? ${when}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Onde? ${where}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+            // Background do canvas
+            ctx.fillStyle = '#fff8dc';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Criação do link de download
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/jpeg');
-    link.download = `${what}.jpg`;
-    link.click();
-}
+            // Estilo do texto
+            ctx.fillStyle = '#2d3748';
+            ctx.font = 'bold 24px Arial';
+
+            // Desenhar títulos e informações do plano de ação
+            let yOffset = padding + lineHeight;
+            lines.forEach(line => {
+                const words = line.split(' ');
+                let lineText = '';
+                for (let i = 0; i < words.length; i++) {
+                    const testLine = lineText + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    if (testWidth > textWidth && i > 0) {
+                        ctx.fillText(lineText, padding, yOffset);
+                        lineText = words[i] + ' ';
+                        yOffset += lineHeight;
+                    } else {
+                        lineText = testLine;
+                    }
+                }
+                ctx.fillText(lineText, padding, yOffset);
+                yOffset += lineHeight;
+            });
+
+            // Criação do link de download
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/jpeg');
+            link.download = `${what}.jpg`;
+            link.click();
+        }
     </script>
 </body>
 </html>
