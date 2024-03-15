@@ -287,8 +287,17 @@
     }
 
     function downloadActionPlan(what, who, when, where, how, why, cost) {
-        generateImage(what, who, when, where, how, why, cost);
-    }
+  // Substitua as quebras de linha por %0A em todos os parâmetros que podem conter texto:
+  what = what.replace(/\n/g, '%0A');
+  who = who.replace(/\n/g, '%0A');
+  when = when.replace(/\n/g, '%0A');
+  where = where.replace(/\n/g, '%0A');
+  how = how.replace(/\n/g, '%0A');
+  why = why.replace(/\n/g, '%0A');
+
+  // Agora chame a função generateImage com os parâmetros tratados:
+  generateImage(what, who, when, where, how, why, cost);
+}
 
     function deleteActionPlan(cardElement) {
         cardElement.classList.add('fadeOut'); // Adiciona a classe para animação de fadeOut
