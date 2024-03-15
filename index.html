@@ -228,15 +228,35 @@
         document.getElementById('actionDetails').style.display = 'block';
     }
 
-    function finishActionPlan() {
-        var what = document.getElementById('what').value;
-        var who = document.getElementById('who').value;
-        var when = document.getElementById('when').value;
-        var where = document.getElementById('where').value;
-        var how = document.getElementById('how').value;
-        var why = document.getElementById('why').value;
-        var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
-        var cost = formatCurrency(costValue); // Formatar o valor como moeda
+    async function finishActionPlan() {
+  try {
+    const what = document.getElementById('what').value.trim();
+    const who = document.getElementById('who').value.trim();
+    const when = document.getElementById('when').value.trim();
+    const where = document.getElementById('where').value.trim();
+    const how = document.getElementById('how').value.trim();
+    const why = document.getElementById('why').value.trim();
+
+    const costValueStr = document.getElementById('cost').value.replace(/[^\d.-]/g, '');
+    const costValue = parseFloat(costValueStr);
+
+    // Validação de dados (exemplo):
+    if (isNaN(costValue)) {
+      throw new Error('Valor de custo inválido');
+    }
+
+    const cost = formatCurrency(costValue);
+
+    // Generate the image:
+    await generateImage(what, who, when, where, how, why, cost);
+
+    // Limpar o formulário após a geração da imagem (opcional)
+    // ...
+
+  } catch (error) {
+    console.error('Erro ao finalizar o plano de ação:', error);
+    // Exibir mensagem de erro ao usuário (opcional)
+  }
 
         // Verifica se o campo de custo está vazio
         if (isNaN(costValue) || costValue === 0) {
