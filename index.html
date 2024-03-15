@@ -254,7 +254,7 @@
                 <div><strong>Como será feito?</strong> ${how}</div>
                 <div><strong>Por que será feito?</strong> ${why}</div>
                 <div><strong>Quanto irá custar?</strong> ${cost}</div>
-                <button onclick="downloadActionPlan('${what.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${who.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${when.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${where.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${how.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${why.replace(/'/g, "\\'").replace(/\n/g, '\\n")}', '${cost.replace(/'/g, "\\'").replace(/\n/g, '\\n")}')">Baixar</button>
+                <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
                 <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
             </div>
         `;
