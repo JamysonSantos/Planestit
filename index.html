@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -56,6 +55,8 @@
             border-radius: 0.5rem;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
+            resize: none; /* Impede o redimensionamento manual */
+            overflow: hidden; /* Impede o scroll */
         }
         
         .input-field:focus {
@@ -195,18 +196,18 @@
         <div class="header">
             <img src="logo 01.png" alt="Logo da sua empresa">
         </div>
-        <input type="text" id="what" class="input-field" placeholder="O que será feito?">
+        <textarea id="what" class="input-field" placeholder="O que será feito?" oninput="autoResize(this)"></textarea>
         <a href="#" class="button" onclick="defineResponsible()">Definir Responsável</a>
 
         <div id="responsibleSection" style="display: none;">
-            <input type="text" id="who" class="input-field" placeholder="Por quem será feito?">
+            <textarea id="who" class="input-field" placeholder="Por quem será feito?" oninput="autoResize(this)"></textarea>
             <a href="#" class="button" onclick="continueToDetails()">Continuar</a>
 
             <div id="actionDetails" style="display: none;">
                 <input type="date" id="when" class="input-field" placeholder="Quando será feito?" required>
-                <input type="text" id="where" class="input-field" placeholder="Onde será feito?">
-                <input type="text" id="how" class="input-field" placeholder="Como será feito?">
-                <input type="text" id="why" class="input-field" placeholder="Por que será feito?">
+                <textarea id="where" class="input-field" placeholder="Onde será feito?" oninput="autoResize(this)"></textarea>
+                <textarea id="how" class="input-field" placeholder="Como será feito?" oninput="autoResize(this)"></textarea>
+                <textarea id="why" class="input-field" placeholder="Por que será feito?" oninput="autoResize(this)"></textarea>
                 <input type="text" id="cost" class="input-field" placeholder="Quanto vai custar?" required>
             </div>
         </div>
@@ -220,131 +221,131 @@
 
     <script>
         function defineResponsible() {
-    document.getElementById('responsibleSection').style.display = 'block';
-}
-
-function continueToDetails() {
-    document.getElementById('actionDetails').style.display = 'block';
-}
-
-function finishActionPlan() {
-    var what = document.getElementById('what').value;
-    var who = document.getElementById('who').value;
-    var when = document.getElementById('when').value;
-    var where = document.getElementById('where').value;
-    var how = document.getElementById('how').value;
-    var why = document.getElementById('why').value;
-    var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
-    var cost = formatCurrency(costValue); // Formatar o valor como moeda
-
-    // Verifica se o campo de custo está vazio
-    if (isNaN(costValue) || costValue === 0) {
-        cost = 'Sem custos';
-    }
-
-    var cardContent = `
-        <div class="action-card" style="animation: customAni 0.5s ease;">
-            <div class="highlight">${what}</div>
-            <hr>
-            <div><strong>Responsável:</strong> ${who}</div>
-            <hr>
-            <div><strong>Quando?</strong> ${when}</div>
-            <div><strong>Onde?</strong> ${where}</div>
-            <div><strong>Como será feito?</strong> ${how}</div>
-            <div><strong>Por que será feito?</strong> ${why}</div>
-            <div><strong>Quanto irá custar?</strong> ${cost}</div>
-            <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
-            <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
-        </div>
-    `;
-    // Cria um novo elemento div para o card de ação
-    var newCard = document.createElement('div');
-    newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
-    newCard.innerHTML = cardContent; // Define o conteúdo do novo card
-
-    // Adiciona o novo card à div de container de cards
-    var actionCardContainer = document.getElementById('actionCardContainer');
-    actionCardContainer.appendChild(newCard);
-
-    // Aplica a animação ao novo card apenas
-    newCard.style.animation = 'customAni 0.5s ease';
-
-    resetForm(); // Limpa o formulário
-}
-
-function resetForm() {
-    document.getElementById('what').value = '';
-    document.getElementById('who').value = '';
-    document.getElementById('when').value = '';
-    document.getElementById('where').value = '';
-    document.getElementById('how').value = '';
-    document.getElementById('why').value = '';
-    document.getElementById('cost').value = '';
-
-    document.getElementById('responsibleSection').style.display = 'none';
-    document.getElementById('actionDetails').style.display = 'none';
-}
-
-function downloadActionPlan(what, who, when, where, how, why, cost) {
-    generateImage(what, who, when, where, how, why, cost);
-}
-
-function deleteActionPlan(cardElement) {
-    cardElement.classList.add('fadeOut'); // Adiciona a classe para animação de fadeOut
-    setTimeout(function() {
-        var actionCardContainer = cardElement.parentElement; // Obtém o contêiner do card
-        cardElement.remove(); // Remove o card do DOM
-        if (actionCardContainer.children.length === 0) {
-            actionCardContainer.remove(); // Remove o contêiner se não houver mais nenhum card dentro
+            document.getElementById('responsibleSection').style.display = 'block';
         }
-    }, 300); // Tempo de espera igual à duração da animação (300ms)
-}
 
-// Função para formatar um número como moeda (R$)
-function formatCurrency(value) {
-    return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
-}
+        function continueToDetails() {
+            document.getElementById('actionDetails').style.display = 'block';
+        }
 
-function generateImage(what, who, when, where, how, why, cost) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+        function finishActionPlan() {
+            var what = document.getElementById('what').value;
+            var who = document.getElementById('who').value;
+            var when = document.getElementById('when').value;
+            var where = document.getElementById('where').value;
+            var how = document.getElementById('how').value;
+            var why = document.getElementById('why').value;
+            var costValue = parseFloat(document.getElementById('cost').value.replace(/[^\d.-]/g, '')); // Extrair apenas os números do valor
+            var cost = formatCurrency(costValue); // Formatar o valor como moeda
 
-    // Configuração do canvas
-    canvas.width = 500;
-    canvas.height = 400;
+            // Verifica se o campo de custo está vazio
+            if (isNaN(costValue) || costValue === 0) {
+                cost = 'Sem custos';
+            }
 
-    // Background da comanda
-    ctx.fillStyle = '#fff8dc'; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var cardContent = `
+                <div class="action-card" style="animation: customAni 0.5s ease;">
+                    <div class="highlight">${what}</div>
+                    <hr>
+                    <div><strong>Responsável:</strong> ${who}</div>
+                    <hr>
+                    <div><strong>Quando?</strong> ${when}</div>
+                    <div><strong>Onde?</strong> ${where}</div>
+                    <div><strong>Como será feito?</strong> ${how}</div>
+                    <div><strong>Por que será feito?</strong> ${why}</div>
+                    <div><strong>Quanto irá custar?</strong> ${cost}</div>
+                    <button onclick="downloadActionPlan('${what}', '${who}', '${when}', '${where}', '${how}', '${why}', '${cost}')">Baixar</button>
+                    <button onclick="deleteActionPlan(this.parentElement)">Excluir</button>
+                </div>
+            `;
+            // Cria um novo elemento div para o card de ação
+            var newCard = document.createElement('div');
+            newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
+            newCard.innerHTML = cardContent; // Define o conteúdo do novo card
 
-    // Títulos
-    ctx.fillStyle = '#2d3748';
-    ctx.font = 'bold 24px Arial';
-    ctx.fillText(what, 20, 40);
+            // Adiciona o novo card à div de container de cards
+            var actionCardContainer = document.getElementById('actionCardContainer');
+            actionCardContainer.appendChild(newCard);
 
-    // Linha divisória após o título
-    ctx.beginPath();
-    ctx.moveTo(20, 60);
-    ctx.lineTo(canvas.width - 20, 60);
-    ctx.strokeStyle = '#4a5568';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+            // Aplica a animação ao novo card apenas
+            newCard.style.animation = 'customAni 0.5s ease';
 
-    // Informações do Plano de Ação
-    ctx.font = 'bold 18px Arial';
-    let yOffset = 100;
-    ctx.fillStyle = '#2d3748';
-    ctx.fillText(`Responsável: ${who}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Quando? ${when}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Onde? ${where}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
-    yOffset += 30;
-    ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+            resetForm(); // Limpa o formulário
+        }
+
+        function resetForm() {
+            document.getElementById('what').value = '';
+            document.getElementById('who').value = '';
+            document.getElementById('when').value = '';
+            document.getElementById('where').value = '';
+            document.getElementById('how').value = '';
+            document.getElementById('why').value = '';
+            document.getElementById('cost').value = '';
+
+            document.getElementById('responsibleSection').style.display = 'none';
+            document.getElementById('actionDetails').style.display = 'none';
+        }
+
+        function downloadActionPlan(what, who, when, where, how, why, cost) {
+            generateImage(what, who, when, where, how, why, cost);
+        }
+
+        function deleteActionPlan(cardElement) {
+            cardElement.classList.add('fadeOut'); // Adiciona a classe para animação de fadeOut
+            setTimeout(function() {
+                var actionCardContainer = cardElement.parentElement; // Obtém o contêiner do card
+                cardElement.remove(); // Remove o card do DOM
+                if (actionCardContainer.children.length === 0) {
+                    actionCardContainer.remove(); // Remove o contêiner se não houver mais nenhum card dentro
+                }
+            }, 300); // Tempo de espera igual à duração da animação (300ms)
+        }
+
+        // Função para formatar um número como moeda (R$)
+        function formatCurrency(value) {
+            return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
+        }
+
+        function generateImage(what, who, when, where, how, why, cost) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Configuração do canvas
+            canvas.width = 500;
+            canvas.height = 400;
+
+            // Background da comanda
+            ctx.fillStyle = '#fff8dc'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Títulos
+            ctx.fillStyle = '#2d3748';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(what, 20, 40);
+
+            // Linha divisória após o título
+            ctx.beginPath();
+            ctx.moveTo(20, 60);
+            ctx.lineTo(canvas.width - 20, 60);
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Informações do Plano de Ação
+            ctx.font = 'bold 18px Arial';
+            let yOffset = 100;
+            ctx.fillStyle = '#2d3748';
+            ctx.fillText(`Responsável: ${who}`, 40, yOffset);
+            yOffset += 30;
+            ctx.fillText(`Quando? ${when}`, 40, yOffset);
+            yOffset += 30;
+            ctx.fillText(`Onde? ${where}`, 40, yOffset);
+            yOffset += 30;
+            ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
+            yOffset += 30;
+            ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
+            yOffset += 30;
+            ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
 
             // Criação do link de download
             const link = document.createElement('a');
@@ -352,7 +353,12 @@ function generateImage(what, who, when, where, how, why, cost) {
             link.download = `${what}.jpg`;
             link.click();
         }
-        
+
+        // Função para redimensionar automaticamente a área de texto à medida que o usuário digita
+        function autoResize(textarea) {
+            textarea.style.height = 'auto'; // Redefine a altura para auto para que o navegador calcule a altura correta
+            textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
+        }
     </script>
 </body>
 </html>
