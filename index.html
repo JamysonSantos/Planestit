@@ -56,8 +56,6 @@
             border-radius: 0.5rem;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
-            resize: none; /* Impede o redimensionamento manual */
-            overflow: hidden; /* Impede o scroll */
         }
         
         .input-field:focus {
@@ -180,13 +178,14 @@
         @keyframes fadeOut {
             0% {
                 opacity: 1;
-        }
+            }
             
-        100% {
+            100% {
                 opacity: 0;
                 height: 0;
                 padding: 0;
                 margin: 0;
+            }
         }
 
     </style>
@@ -197,18 +196,18 @@
         <div class="header">
             <img src="logo 01.png" alt="Logo da sua empresa">
         </div>
-        <textarea id="what" class="input-field" placeholder="O que será feito?" oninput="autoResize(this)"></textarea>
+        <textarea id="what" class="input-field" rows="4" placeholder="O que será feito?"></textarea>
         <a href="#" class="button" onclick="defineResponsible()">Definir Responsável</a>
 
         <div id="responsibleSection" style="display: none;">
-            <textarea id="who" class="input-field" placeholder="Por quem será feito?" oninput="autoResize(this)"></textarea>
+            <textarea id="who" class="input-field" rows="4" placeholder="Por quem será feito?"></textarea>
             <a href="#" class="button" onclick="continueToDetails()">Continuar</a>
 
             <div id="actionDetails" style="display: none;">
                 <input type="date" id="when" class="input-field" placeholder="Quando será feito?" required>
-                <textarea id="where" class="input-field" placeholder="Onde será feito?" oninput="autoResize(this)"></textarea>
-                <textarea id="how" class="input-field" placeholder="Como será feito?" oninput="autoResize(this)"></textarea>
-                <textarea id="why" class="input-field" placeholder="Por que será feito?" oninput="autoResize(this)"></textarea>
+                <textarea id="where" class="input-field" rows="4" placeholder="Onde será feito?"></textarea>
+                <textarea id="how" class="input-field" rows="4" placeholder="Como será feito?"></textarea>
+                <textarea id="why" class="input-field" rows="4" placeholder="Por que será feito?"></textarea>
                 <input type="text" id="cost" class="input-field" placeholder="Quanto vai custar?" required>
             </div>
         </div>
@@ -313,7 +312,17 @@
 
             // Configuração do canvas
             canvas.width = 500;
-            canvas.height = 400;
+            const padding = 20;
+            let textHeight = padding * 2;
+
+            // Calcular a altura do texto com base na quantidade de linhas
+            const lines = [what, who, when, where, how, why, cost];
+            lines.forEach(line => {
+                const numLines = line.split('\n').length;
+                textHeight += numLines * 30;
+            });
+
+            canvas.height = textHeight;
 
             // Background da comanda
             ctx.fillStyle = '#fff8dc'; 
@@ -354,15 +363,10 @@
             link.download = `${what}.jpg`;
             link.click();
         }
-
-        // Função para redimensionar automaticamente a área de texto à medida que o usuário digita
-        function autoResize(textarea) {
-            textarea.style.height = 'auto'; // Redefine a altura para auto para que o navegador calcule a altura correta
-            textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
-        }
     </script>
 </body>
 </html>
+
 
 
 
