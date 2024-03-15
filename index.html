@@ -308,53 +308,62 @@
         }
 
         function generateImage(what, who, when, where, how, why, cost) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
-            // Configuração do canvas
-            canvas.width = 500;
-            canvas.height = 400;
+  // Configuração do canvas
+  canvas.width = 500;
+  const lines = what.split('\n');
+  const textHeight = 20; // Ajustar conforme o tamanho da fonte
+  const totalHeight = lines.length * textHeight + 20; // Espaçamento adicional
+  canvas.height = totalHeight;
 
-            // Background da comanda
-            ctx.fillStyle = '#fff8dc'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Background da comanda
+  ctx.fillStyle = '#fff8dc'; 
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Títulos
-            ctx.fillStyle = '#2d3748';
-            ctx.font = 'bold 24px Arial';
-            ctx.fillText(what, 20, 40);
+  // Títulos
+  ctx.fillStyle = '#2d3748';
+  ctx.font = 'bold 24px Arial';
+  ctx.fillText(what, 20, 40);
 
-            // Linha divisória após o título
-            ctx.beginPath();
-            ctx.moveTo(20, 60);
-            ctx.lineTo(canvas.width - 20, 60);
-            ctx.strokeStyle = '#4a5568';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+  // Linha divisória após o título
+  ctx.beginPath();
+  ctx.moveTo(20, 60);
+  ctx.lineTo(canvas.width - 20, 60);
+  ctx.strokeStyle = '#4a5568';
+  ctx.lineWidth = 2;
+  ctx.stroke();
 
-            // Informações do Plano de Ação
-            ctx.font = 'bold 18px Arial';
-            let yOffset = 100;
-            ctx.fillStyle = '#2d3748';
-            ctx.fillText(`Responsável: ${who}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Quando? ${when}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Onde? ${where}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
-            yOffset += 30;
-            ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+  // Informações do Plano de Ação
+  ctx.font = 'bold 18px Arial';
+  let yOffset = 100;
+  ctx.fillStyle = '#2d3748';
 
-            // Criação do link de download
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/jpeg');
-            link.download = `${what}.jpg`;
-            link.click();
-        }
+  for (const line of lines) {
+    ctx.fillText(line, 40, yOffset);
+    yOffset += textHeight;
+  }
 
+  yOffset += 30;
+  ctx.fillText(`Responsável: ${who}`, 40, yOffset);
+  yOffset += 30;
+  ctx.fillText(`Quando? ${when}`, 40, yOffset);
+  yOffset += 30;
+  ctx.fillText(`Onde? ${where}`, 40, yOffset);
+  yOffset += 30;
+  ctx.fillText(`Como será feito? ${how}`, 40, yOffset);
+  yOffset += 30;
+  ctx.fillText(`Por que será feito? ${why}`, 40, yOffset);
+  yOffset += 30;
+  ctx.fillText(`Quanto irá custar? ${cost}`, 40, yOffset);
+
+  // Criação do link de download
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/jpeg');
+  link.download = `${what}.jpg`;
+  link.click();
+}
         // Função para redimensionar automaticamente a área de texto à medida que o usuário digita
         function autoResize(textarea) {
             textarea.style.height = 'auto'; // Redefine a altura para auto para que o navegador calcule a altura correta
