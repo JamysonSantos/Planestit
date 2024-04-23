@@ -119,17 +119,14 @@
       flex-wrap: wrap;
     }
 
-    .action-card button {
-      margin-top: 10px;
-      display: block;
-      width: 100%;
-      padding: 0.5rem 0;
-      border: none;
-      border-radius: 0.5rem;
-      background-color: #1D2A1E;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    .action-card {
+      background-color: #fff8dc;
+      padding: 20px;
+      border-radius: 5px;
+      margin: 1px;
+      max-width: 350px;
+      flex-grow: 1;
+      animation: customAni 0.5s ease;
     }
 
     .action-card button {
@@ -160,14 +157,13 @@
     }
 
     .btn-container {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      display: inline-flex;
+      display: flex;
+      align-items: baseline;
+      margin-top: 10px;
+      align-content: space-between;
       flex-direction: column;
-      align-items: center; /* Adicione esta linha para centralizar os botões horizontalmente */
-      margin-top: 170px; /* Ajuste o valor conforme necessário para posicionar abaixo do card */
+      flex-wrap: nowrap;
+      justify-content: center;
     }
 
     .btn-download,
@@ -431,7 +427,6 @@
 </body>
 
 </html>
-
 
 
 
