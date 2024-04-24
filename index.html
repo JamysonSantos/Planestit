@@ -67,24 +67,24 @@
       border-color: #4a5568;
       box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
-	
-	.format-buttons {
-        display: flex;
-        gap: 5px;
+
+    .format-buttons {
+      display: flex;
+      gap: 5px;
     }
-	
-	.format-buttons button {
-        padding: 1px 6px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #e0e0e0;
-        transition: background-color 0.3s;
-        font-weight: bold;
+
+    .format-buttons button {
+      padding: 1px 6px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #e0e0e0;
+      transition: background-color 0.3s;
+      font-weight: bold;
     }
 
     .format-buttons button:hover {
-        background-color: #d1d1d1;
+      background-color: #d1d1d1;
     }
 
     .button {
@@ -157,14 +157,10 @@
     }
 
     .btn-container {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
       display: flex;
-      align-items: center;
-      flex-direction: row;
-      align-content: center;
+      gap: 1px;
+      flex-direction: column;
+      align-content: stretch;
       justify-content: center;
     }
 
@@ -175,12 +171,12 @@
       border-radius: 15px;
       cursor: pointer;
       transition: background-color 0.3s;
-      width: 80px;
+      width: 40px;
       height: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.2rem;
       animation: customAni 0.5s ease;
     }
 
@@ -229,50 +225,6 @@
         margin: 0;
       }
     }
-
-    @media only screen and (max-width: 600px) {
-      .container {
-        padding: 10px;
-      }
-
-      .header img {
-        max-width: 100%;
-        height: auto;
-      }
-
-      .input-field,
-      .button {
-        width: calc(100% - 40px);
-      }
-
-      .action-card {
-        max-width: calc(100% - 40px);
-      }
-
-      .action-card-container {
-        margin-top: 1rem;
-      }
-
-    .format-buttons {
-        display: flex;
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    .format-buttons button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #e0e0e0;
-        transition: background-color 0.3s;
-        font-weight: bold;
-    }
-
-    .format-buttons button:hover {
-        background-color: #d1d1d1;
-    }
-	
   </style>
 </head>
 
@@ -292,19 +244,7 @@
         <input type="date" id="when" class="input-field" placeholder="Quando será feito?" required>
         <textarea id="where" class="input-field" placeholder="Onde será feito?" oninput="autoResize(this)"></textarea>
         <textarea id="how" class="input-field" placeholder="Como será feito?" oninput="autoResize(this)"></textarea>
-		<div class="format-buttons">
-        <button id="boldBtn"><b>B</b></button>
-        <button id="italicBtn"><i>I</i></button>
-        <button id="bulletListBtn">&#8226;</button>
-        <button id="numberedListBtn">1.</button>
-      </div>
         <textarea id="why" class="input-field" placeholder="Por que será feito?" oninput="autoResize(this)"></textarea>
-		<div class="format-buttons">
-        <button id="boldBtn2"><b>B</b></button>
-        <button id="italicBtn2"><i>I</i></button>
-        <button id="bulletListBtn2">&#8226;</button>
-        <button id="numberedListBtn2">1.</button>
-      </div>
         <input type="text" id="cost" class="input-field" placeholder="Quanto vai custar?" required>
       </div>
     </div>
@@ -339,16 +279,16 @@
         cost = 'Sem custos';
       }
       var cardContent = `
-                <div class="action-card" style="animation: customAni 0.5s ease;">
-                    <div class="highlight">${what}</div>
-                    <div><strong>Responsável:</strong> ${who}</div>
-                    <div><strong>Quando?</strong> ${when}</div>
-                    <div><strong>Onde?</strong> ${where}</div>
-                    <div><strong>Como será feito?</strong> ${how}</div>
-                    <div><strong>Por que será feito?</strong> ${why}</div>
-                    <div><strong>Quanto irá custar?</strong> ${cost}</div>
-                </div>
-            `;
+        <div class="action-card" style="animation: customAni 0.5s ease;">
+            <div class="highlight">${what}</div>
+            <div><strong>Responsável:</strong> ${who}</div>
+            <div><strong>Quando?</strong> ${when}</div>
+            <div><strong>Onde?</strong> ${where}</div>
+            <div><strong>Como será feito?</strong> ${how}</div>
+            <div><strong>Por que será feito?</strong> ${why}</div>
+            <div><strong>Quanto irá custar?</strong> ${cost}</div>
+        </div>
+      `;
       // Cria um novo elemento div para o card de ação
       var newCard = document.createElement('div');
       newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
@@ -362,13 +302,13 @@
       var buttonContainer = document.createElement('div');
       buttonContainer.classList.add('btn-container');
       var downloadButton = document.createElement('button');
-      downloadButton.textContent = 'Baixar';
+      downloadButton.innerHTML = '&#9660;'; // Setinha para baixo
       downloadButton.classList.add('btn-download');
       downloadButton.onclick = function() {
         downloadActionPlan(newCard);
       };
       var deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Excluir';
+      deleteButton.innerHTML = 'X'; // Ícone de X
       deleteButton.classList.add('btn-delete');
       deleteButton.onclick = function() {
         deleteActionPlan(newCard, buttonContainer);
