@@ -302,17 +302,23 @@
       var buttonContainer = document.createElement('div');
       buttonContainer.classList.add('btn-container');
       var downloadButton = document.createElement('button');
-      downloadButton.innerHTML = '&#9660;'; // Setinha para baixo
-      downloadButton.classList.add('btn-download');
-      downloadButton.onclick = function() {
-        downloadActionPlan(newCard);
-      };
+var downloadImage = document.createElement('img');
+downloadImage.src = 'download.png'; // Substitua 'caminho/para/download.png' pelo caminho correto
+downloadImage.alt = 'Baixar';
+downloadButton.appendChild(downloadImage);
+downloadButton.classList.add('btn-download');
+downloadButton.onclick = function() {
+  downloadActionPlan(newCard);
+};
       var deleteButton = document.createElement('button');
-      deleteButton.innerHTML = 'X'; // Ícone de X
-      deleteButton.classList.add('btn-delete');
-      deleteButton.onclick = function() {
-        deleteActionPlan(newCard, buttonContainer);
-      };
+var deleteImage = document.createElement('img');
+deleteImage.src = 'excluir.png'; // Substitua 'caminho/para/excluir.png' pelo caminho correto
+deleteImage.alt = 'Excluir';
+deleteButton.appendChild(deleteImage);
+deleteButton.classList.add('btn-delete');
+deleteButton.onclick = function() {
+  deleteActionPlan(newCard, buttonContainer);
+};
       // Adiciona os botões ao final do card
       buttonContainer.appendChild(downloadButton);
       buttonContainer.appendChild(deleteButton);
