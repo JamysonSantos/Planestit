@@ -1,26 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Código JavaScript para inicialização e funcionalidades
     var toolbarOptions = [
-        ['bold', 'italic'], // Botões de negrito e itálico
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }] // Botões de lista ordenada e lista de marcadores
+      ['bold', 'italic'], // Botões de negrito e itálico
+      [{
+        'list': 'ordered'
+      }, {
+        'list': 'bullet'
+      }] // Botões de lista ordenada e lista de marcadores
     ];
     var quillHow = new Quill('#how', {
-        theme: 'snow',
-        modules: {
-            toolbar: toolbarOptions
-        },
-        placeholder: 'Descreva como será feito...'
+      theme: 'snow',
+      modules: {
+        toolbar: toolbarOptions
+      },
+      placeholder: 'Descreva como será feito...'
     });
     var quillWhy = new Quill('#why', {
-        theme: 'snow',
-        modules: {
-            toolbar: toolbarOptions
-        },
-        placeholder: 'Explique por que será feito...'
+      theme: 'snow',
+      modules: {
+        toolbar: toolbarOptions
+      },
+      placeholder: 'Explique por que será feito...'
     });
-});
+  });
 
-function defineResponsible() {
+  function defineResponsible() {
     document.getElementById('responsibleSection').style.display = 'block';
   }
 
@@ -31,7 +34,7 @@ function defineResponsible() {
   function finishActionPlan() {
     var what = document.getElementById('what').value;
     var who = document.getElementById('who').value;
-    var when = document.getElementById('when').value;
+    var when = new Date(document.getElementById('when').value + 'T00:00:00').toLocaleDateString('pt-BR');
     var where = document.getElementById('where').value;
     var how = document.querySelector('#how .ql-editor').innerHTML;
     var why = document.querySelector('#why .ql-editor').innerHTML;
