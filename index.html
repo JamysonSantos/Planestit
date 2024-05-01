@@ -2,18 +2,18 @@
 <html lang="pt-br">
 
 <head>
-   
+   
   <meta charset="UTF-8">
-   
+   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Planestit - Gerador de Plano de Ação</title>
-   
+   <title>Planestit - Gerador de Plano de Ação</title>
+   
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-   
+   
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
-   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/dist/vanilla-masker.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -384,8 +384,15 @@
     setTimeout(function() {
       cardElement.remove(); // Remove o card do DOM
       buttonContainer.remove(); // Remove os botões do DOM
+	  notifyDelete(); // Exibir mensagem de notificação
     }, 300); // Tempo de espera igual à duração da animação (300ms)
   }
+  
+  // Função para exibir mensagem de notificação ao excluir um card
+function notifyDelete() {
+  alert('O card foi excluído com sucesso!');
+}
+
   // Função para formatar um número como moeda (R$)
   function formatCurrency(value) {
     return 'R$ ' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Adiciona separadores de milhares e formata duas casas decimais
@@ -404,12 +411,19 @@
     if (match && match.length > 1) {
       whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
     }
+	
+	// Função para exibir mensagem de notificação ao baixar um card
+function notifyDownload() {
+  alert('O card foi baixado com sucesso!');
+}
+
     var filename = whatValue !== '' ? whatValue + '.jpg' : 'action-card.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
     html2canvas(cardElement).then(canvas => {
       var link = document.createElement('a');
       link.href = canvas.toDataURL('image/jpeg', 0.9); // Formato JPG com qualidade de 90%
       link.download = filename;
       link.click();
+	  notifyDownload(); // Exibir mensagem de notificação
     });
   }
 </script>
