@@ -132,36 +132,28 @@ function notifyDelete() {
     textarea.style.height = 'auto'; // Redefine a altura para auto para que o navegador calcule a altura correta
     textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
   }
-  function downloadActionPlan(cardElement) {
-  var cardContent = cardElement.innerHTML; // Conteúdo HTML do card
-  var whatValue = ''; // Valor inicial do campo "O QUE SERÁ FEITO"
-  
-  // Extrair o valor do campo "O QUE SERÁ FEITO" do conteúdo HTML do card
-  var match = cardContent.match(/<div class="highlight">([^<]+)<\/div>/);
-  if (match && match.length > 1) {
-    whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
-  }
-  
-  // Configurar as opções para html2canvas
-  var options = {
-    scale: 2, // Fator de escala para melhorar a qualidade (pode ajustar conforme necessário)
-    width: cardElement.offsetWidth, // Largura do card
-    height: cardElement.offsetHeight, // Altura do card
-    windowWidth: document.documentElement.clientWidth, // Largura da janela do navegador
-    windowHeight: document.documentElement.clientHeight, // Altura da janela do navegador
-    scrollX: window.scrollX, // Posição de rolagem horizontal
-    scrollY: window.scrollY, // Posição de rolagem vertical
-  };
 
-  // Gerar a imagem do card usando html2canvas
-  html2canvas(cardElement, options).then(function(canvas) {
-    // Criar um link para download da imagem
-    var link = document.createElement('a');
-    link.href = canvas.toDataURL('image/jpeg', 1); // Formato JPEG com qualidade máxima (1)
-    link.download = whatValue + '.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
-    link.click();
-    
-    // Exibir mensagem de notificação
-    notifyDownload();
-  });
+  // Função para gerar a imagem do card
+  function downloadActionPlan(cardElement) {
+    var cardContent = cardElement.innerHTML; // Conteúdo HTML do card
+    var whatValue = ''; // Valor inicial do campo "O QUE SERÁ FEITO"
+    // Extrair o valor do campo "O QUE SERÁ FEITO" do conteúdo HTML do card
+    var match = cardContent.match(/<div class="highlight">([^<]+)<\/div>/);
+    if (match && match.length > 1) {
+      whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
+    }
+
+	// Função para exibir mensagem de notificação ao baixar um card
+function notifyDownload() {
+  alert('O card foi baixado com sucesso!');
 }
+
+    var filename = whatValue !== '' ? whatValue + '.jpg' : 'action-card.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
+    html2canvas(cardElement).then(canvas => {
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/jpeg', 0.9); // Formato JPG com qualidade de 90%
+      link.download = filename;
+      link.click();
+	  notifyDownload(); // Exibir mensagem de notificação
+    });
+  }
