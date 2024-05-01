@@ -133,28 +133,27 @@ function notifyDelete() {
     textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
   }
 
+  // Função para gerar a imagem do card
   function downloadActionPlan(cardElement) {
-  var cardContent = cardElement.innerHTML; // Conteúdo HTML do card
-  var whatValue = ''; // Valor inicial do campo "O QUE SERÁ FEITO"
-  
-  // Extrair o valor do campo "O QUE SERÁ FEITO" do conteúdo HTML do card
-  var match = cardContent.match(/<div class="highlight">([^<]+)<\/div>/);
-  if (match && match.length > 1) {
-    whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
-  }
+    var cardContent = cardElement.innerHTML; // Conteúdo HTML do card
+    var whatValue = ''; // Valor inicial do campo "O QUE SERÁ FEITO"
+    // Extrair o valor do campo "O QUE SERÁ FEITO" do conteúdo HTML do card
+    var match = cardContent.match(/<div class="highlight">([^<]+)<\/div>/);
+    if (match && match.length > 1) {
+      whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
+    }
+	
+	// Função para exibir mensagem de notificação ao baixar um card
+function notifyDownload() {
+  alert('O card foi baixado com sucesso!');
+}
 
-  var filename = whatValue !== '' ? whatValue + '.jpg' : 'action-card.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
-  
-  // Usar a biblioteca html-to-image para converter o card em uma imagem
-  htmlToImage.toJpeg(cardElement)
-    .then(function (dataUrl) {
+    var filename = whatValue !== '' ? whatValue + '.jpg' : 'action-card.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
+    html2canvas(cardElement).then(canvas => {
       var link = document.createElement('a');
-      link.href = dataUrl;
+      link.href = canvas.toDataURL('image/jpeg', 0.9); // Formato JPG com qualidade de 90%
       link.download = filename;
       link.click();
-      notifyDownload(); // Exibir mensagem de notificação
-    })
-    .catch(function (error) {
-      console.error('Erro ao gerar a imagem:', error);
+	  notifyDownload(); // Exibir mensagem de notificação
     });
-}
+  }
