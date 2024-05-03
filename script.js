@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function finishActionPlan() {
     var what = document.getElementById('what').value;
     var who = document.getElementById('who').value;
-    var when = new Date(document.getElementById('when').value + 'T00:00:00').toLocaleDateString('pt-BR');
+	var whenElement = document.getElementById('when');
+    var when = whenElement.value ? new Date(whenElement.value + 'T00:00:00').toLocaleDateString('pt-BR') : 'Sem prazo definido';
     var where = document.getElementById('where').value;
     var how = document.querySelector('#how .ql-editor').innerHTML;
     var why = document.querySelector('#why .ql-editor').innerHTML;
@@ -65,26 +66,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Aplica a animação ao novo card apenas
     newCard.style.animation = 'customAni 0.5s ease';
     // Cria os botões "Baixar" e "Excluir" para o novo card
-    var buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('btn-container');
-    var downloadButton = document.createElement('button');
-    var downloadImage = document.createElement('img');
-    downloadImage.src = 'download.png'; // Substitua 'caminho/para/download.png' pelo caminho correto
-    downloadImage.alt = 'Baixar';
-    downloadButton.appendChild(downloadImage);
-    downloadButton.classList.add('btn-download');
-    downloadButton.onclick = function() {
-      downloadActionPlan(newCard);
-    };
-    var deleteButton = document.createElement('button');
-    var deleteImage = document.createElement('img');
-    deleteImage.src = 'excluir.png'; // Substitua 'caminho/para/excluir.png' pelo caminho correto
-    deleteImage.alt = 'Excluir';
-    deleteButton.appendChild(deleteImage);
-    deleteButton.classList.add('btn-delete');
-    deleteButton.onclick = function() {
-      deleteActionPlan(newCard, buttonContainer);
-    };
+var buttonContainer = document.createElement('div');
+buttonContainer.classList.add('btn-container');
+
+var downloadButton = document.createElement('button');
+var downloadImage = document.createElement('img');
+downloadImage.src = 'download.png'; // Substitua 'caminho/para/download.png' pelo caminho correto
+downloadImage.alt = 'Baixar';
+downloadButton.appendChild(downloadImage);
+downloadButton.classList.add('btn-download');
+downloadButton.onclick = function() {
+  downloadActionPlan(newCard); // Chama a função downloadActionPlan() passando o elemento do card
+};
+
+var deleteButton = document.createElement('button');
+var deleteImage = document.createElement('img');
+deleteImage.src = 'excluir.png'; // Substitua 'caminho/para/excluir.png' pelo caminho correto
+deleteImage.alt = 'Excluir';
+deleteButton.appendChild(deleteImage);
+deleteButton.classList.add('btn-delete');
+deleteButton.onclick = function() {
+  deleteActionPlan(newCard, buttonContainer);
+};
     // Adiciona os botões ao final do card
     buttonContainer.appendChild(downloadButton);
     buttonContainer.appendChild(deleteButton);
@@ -132,28 +135,24 @@ function notifyDelete() {
     textarea.style.height = 'auto'; // Redefine a altura para auto para que o navegador calcule a altura correta
     textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
   }
-
-  // Função para gerar a imagem do card
-  function downloadActionPlan(cardElement) {
-    var cardContent = cardElement.innerHTML; // Conteúdo HTML do card
-    var whatValue = ''; // Valor inicial do campo "O QUE SERÁ FEITO"
-    // Extrair o valor do campo "O QUE SERÁ FEITO" do conteúdo HTML do card
-    var match = cardContent.match(/<div class="highlight">([^<]+)<\/div>/);
-    if (match && match.length > 1) {
-      whatValue = match[1].trim(); // Valor do campo "O QUE SERÁ FEITO"
+  
+  // Função para baixar o card como imagem
+    function downloadActionPlan(cardElement) {
+      domtoimage.toBlob(cardElement)
+        .then(blob => {
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          const whatElement = cardElement.querySelector('.highlight');
+          const whatText = whatElement.textContent.trim();
+          link.download = `${whatText}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          notifyDownload(); // Exibe mensagem de notificação após o download bem-sucedido
+        });
     }
-	
-	// Função para exibir mensagem de notificação ao baixar um card
-function notifyDownload() {
-  alert('O card foi baixado com sucesso!');
-}
 
-    var filename = whatValue !== '' ? whatValue + '.jpg' : 'action-card.jpg'; // Nome do arquivo será o valor do campo "O QUE SERÁ FEITO" seguido de .jpg
-    html2canvas(cardElement).then(canvas => {
-      var link = document.createElement('a');
-      link.href = canvas.toDataURL('image/jpeg', 0.9); // Formato JPG com qualidade de 90%
-      link.download = filename;
-      link.click();
-	  notifyDownload(); // Exibir mensagem de notificação
-    });
-  }
+    // Função para exibir mensagem de notificação ao baixar um card
+    function notifyDownload() {
+      alert('O card foi baixado com sucesso!');
+    }
