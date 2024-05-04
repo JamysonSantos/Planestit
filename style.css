@@ -156,6 +156,7 @@ body {
       flex-direction: column;
       align-content: stretch;
       justify-content: center;
+      margin: 10px;
     }
 
     .btn-download,
