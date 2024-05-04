@@ -137,20 +137,20 @@ function notifyDelete() {
     textarea.style.height = textarea.scrollHeight + 'px'; // Define a altura com base no conteúdo
   }
   
-  // Função para baixar o card como imagem
-    function downloadActionPlan(cardElement) {
-      domtoimage.toBlob(cardElement)
-        .then(blob => {
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          const whatElement = cardElement.querySelector('.highlight');
-          const whatText = whatElement.textContent.trim();
-          link.download = `${whatText}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          notifyDownload(); // Exibe mensagem de notificação após o download bem-sucedido
-        });
+  // Função para baixar o card como imagem JPG
+   function downloadActionPlan(cardElement) {
+     domtoimage.toJpeg(cardElement)
+    .then(function (dataUrl) {
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      const whatElement = cardElement.querySelector('.highlight');
+      const whatText = whatElement.textContent.trim();
+      link.download = `${whatText}.jpg`; // Alterando a extensão para .jpg
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      notifyDownload(); // Exibe mensagem de notificação após o download bem-sucedido
+    })
     }
 
     // Função para exibir mensagem de notificação ao baixar um card
