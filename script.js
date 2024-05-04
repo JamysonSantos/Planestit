@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isNaN(costValue) || costValue === 0) {
       cost = 'Sem custos';
     }
+
     var cardContent = `
     <div class="action-card" style="animation: customAni 0.5s ease;">
         <div class="highlight">${what}</div>
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div><strong>Quanto irá custar?</strong> ${cost}</div>
     </div>
   `;
+  
     // Cria um novo elemento div para o card de ação
     var newCard = document.createElement('div');
     newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
@@ -64,30 +66,29 @@ document.addEventListener('DOMContentLoaded', function() {
     var actionCardContainer = document.getElementById('actionCardContainer');
     actionCardContainer.appendChild(newCard);
     // Aplica a animação ao novo card apenas
-    newCard.style.animation = 'customAni 0.5s ease';
     // Cria os botões "Baixar" e "Excluir" para o novo card
-var buttonContainer = document.createElement('div');
-buttonContainer.classList.add('btn-container');
+    var buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('btn-container');
 
-var downloadButton = document.createElement('button');
-var downloadImage = document.createElement('img');
-downloadImage.src = 'download.png'; // Substitua 'caminho/para/download.png' pelo caminho correto
-downloadImage.alt = 'Baixar';
-downloadButton.appendChild(downloadImage);
-downloadButton.classList.add('btn-download');
-downloadButton.onclick = function() {
-  downloadActionPlan(newCard); // Chama a função downloadActionPlan() passando o elemento do card
-};
+   var downloadButton = document.createElement('button');
+   var downloadImage = document.createElement('img');
+   downloadImage.src = 'download.png'; // Substitua 'caminho/para/download.png' pelo caminho correto
+   downloadImage.alt = 'Baixar';
+   downloadButton.appendChild(downloadImage);
+   downloadButton.classList.add('btn-download');
+   downloadButton.onclick = function() {
+      downloadActionPlan(newCard); // Chama a função downloadActionPlan() passando o elemento do card
+   };
 
-var deleteButton = document.createElement('button');
-var deleteImage = document.createElement('img');
-deleteImage.src = 'excluir.png'; // Substitua 'caminho/para/excluir.png' pelo caminho correto
-deleteImage.alt = 'Excluir';
-deleteButton.appendChild(deleteImage);
-deleteButton.classList.add('btn-delete');
-deleteButton.onclick = function() {
-  deleteActionPlan(newCard, buttonContainer);
-};
+    var deleteButton = document.createElement('button');
+    var deleteImage = document.createElement('img');
+    deleteImage.src = 'excluir.png'; // Substitua 'caminho/para/excluir.png' pelo caminho correto
+    deleteImage.alt = 'Excluir';
+    deleteButton.appendChild(deleteImage);
+    deleteButton.classList.add('btn-delete');
+    deleteButton.onclick = function() {
+    deleteActionPlan(newCard, buttonContainer);
+   };
     // Adiciona os botões ao final do card
     buttonContainer.appendChild(downloadButton);
     buttonContainer.appendChild(deleteButton);
