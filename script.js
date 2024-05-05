@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div><strong>Como será feito?</strong> ${how}</div>
         <div><strong>Por que será feito?</strong> ${why}</div>
         <div><strong>Quanto irá custar?</strong> ${cost}</div>
+	<img src="PlanestitP.png" class="corner-image">
     </div>
   `;
   
