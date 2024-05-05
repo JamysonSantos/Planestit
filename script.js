@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var cardContent = `
-    <div class="action-card relative" style="animation: customAni 0.5s ease;">
+    <div class="action-card relative border border-gray-300" style="animation: customAni 0.5s ease;">
         <div class="highlight">${what}</div>
         <div><strong>Responsável:</strong> ${who}</div>
         <div><strong>Quando?</strong> ${when}</div>
