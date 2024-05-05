@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div><strong>Por que será feito?</strong> ${why}</div>
         <div><strong>Quanto irá custar?</strong> ${cost}</div>
 	</div>
-        <img src="PlanestitP.png" class="absolute bottom-0 right-0 w-12 h-auto border rounded">
+        <img src="PlanestitP.png" alt="Imagem dentro do card" class="absolute bottom-0 right-0 w-12 h-auto border rounded">
     </div>
   `;
     // Cria um novo elemento div para o card de ação
