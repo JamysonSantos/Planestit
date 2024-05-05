@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var cardContent = `
-    <div class="action-card" style="animation: customAni 0.5s ease;">
+    <div class="action-card relative" style="animation: customAni 0.5s ease;">
         <div class="highlight">${what}</div>
         <div><strong>Responsável:</strong> ${who}</div>
         <div><strong>Quando?</strong> ${when}</div>
@@ -55,9 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <div><strong>Como será feito?</strong> ${how}</div>
         <div><strong>Por que será feito?</strong> ${why}</div>
         <div><strong>Quanto irá custar?</strong> ${cost}</div>
-	<img src="PlanestitP.png" class="absolute bottom-0 right-0 w-12 h-auto border rounded corner-image">
-        </div>
-       `;
+        <img src="PlanestitP.png" class="absolute bottom-0 right-0 w-12 h-auto border rounded corner-image">
+    </div>
+`;
+	  
     // Cria um novo elemento div para o card de ação
     var newCard = document.createElement('div');
     newCard.classList.add('action-card'); // Adiciona a classe 'action-card' ao novo card
