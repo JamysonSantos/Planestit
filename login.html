@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Planestit</title>
+  <!-- Seu estilo existente -->
+  <style>
+    /* Estilos existentes */
+    body {
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle farthest-side at 0% 50%, #EDE3CE 23.5%, #0000 0)10.5px 15px,
+        radial-gradient(circle farthest-side at 0% 50%, #E5DCCE 24%, #0000 0)9.5px 15px,
+        linear-gradient(#EDE3CE 14%, #0000 0, #0000 85%, #EDE3CE 0)0 0,
+        linear-gradient(150deg, #EDE3CE 24%, #E5DCCE 0, #E5DCCE 26%, #0000 0, #0000 74%, #E5DCCE 0, #E5DCCE 76%, #EDE3CE 0)0 0,
+        linear-gradient(30deg, #EDE3CE 24%, #E5DCCE 0, #E5DCCE 26%, #0000 0, #0000 74%, #E5DCCE 0, #E5DCCE 76%, #EDE3CE 0)0 0,
+        linear-gradient(90deg, #E5DCCE 2%, #EDE3CE 0, #EDE3CE 98%, #E5DCCE 0%)0 0 #EDE3CE;
+      background-size: 20px 30px;
+      background-color: #EDE3CE;
+    }
+    
+    .logo {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+    }
+    .button {
+      display: block;
+      width: 200px;
+      margin: 0 auto 20px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background: #EEC85F;;
+      color: #000000;
+      text-decoration: none;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      color: #14396A !important;
+      background: #F0E68C;
+    }
+  </style>
+  
+</head>
+<body>
+  <img src="PlanestitP.png" alt="Planestit Logo" class="logo">
+  <form id="loginForm">
+    <input type="text" id="email" placeholder="Digite seu e-mail" required><br><br>
+    <input type="password" id="password" placeholder="Digite sua Senha" required><br><br>
+    <button type="submit" class="button" id="loginButton">ENTRAR</button>
+    <p>Se ainda não tem uma conta, <a href="cadastro.html">clique aqui</a> para fazer login ou se cadastrar.</p>
+    <p>
+      <input type="checkbox" id="showPassword" class="showPassword">
+      <label for="showPassword">Mostrar Senha</label>
+    </p>
+  </form>
+    
+  <!-- Adicione isso antes do seu script.js -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>
