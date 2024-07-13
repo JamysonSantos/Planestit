@@ -1,11 +1,10 @@
-// Cole suas configurações do Firebase aqui
 const firebaseConfig = {
-  apiKey: "SEU_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyAAlsSsLUbkvBSiVLsN4ImofBc-vncLPzA",
+  authDomain: "planestit.firebaseapp.com",
+  projectId: "planestit",
+  storageBucket: "planestit.appspot.com",
+  messagingSenderId: "578410893682",
+  appId: "1:578410893682:web:9a1f3e037c5a162115cdeb"
 };
 
 // Inicialize o Firebase
